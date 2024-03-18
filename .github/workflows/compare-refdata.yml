@@ -31,7 +31,8 @@ jobs:
     steps:
       - name: Print payload
         run: echo "${{ toJson(github.event.client_payload) }}"
-      - uses: actions/checkout@v3
+      - name: Checkout TARDIS refdata
+        uses: actions/checkout@v3
         with:
           path: tardis-refdata/
           lfs: false
@@ -71,13 +72,15 @@ jobs:
           path: tardis-refdata/.git/lfs
           key: ${{ runner.os }}-lfs-${{ hashFiles('tardis-refdata/.lfs-assets-id') }}-v1
 
-      - uses: actions/checkout@v3
+      - name: Checkout TARDIS (master)
+        uses: actions/checkout@v3
         if: ${{ (github.event_name == 'workflow_dispatch') || (github.event_name == 'schedule') }} # for checking master
         with:
           repository: tardis-sn/tardis
           path: tardis/
 
-      - uses: actions/checkout@v3
+      - name: Checkout TARDIS (PR)
+        uses: actions/checkout@v3
         if: ${{ (github.event_name == 'repository_dispatch') }} # for checking PRs
         with:
           repository: tardis-sn/tardis
