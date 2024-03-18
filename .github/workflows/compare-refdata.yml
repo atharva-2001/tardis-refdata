@@ -6,7 +6,13 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 0 * * 0' # run at midnight every Sunday
+  push:
+    branches:
+    - '*'
 
+  pull_request:
+    branches:
+    - '*'
 
 env:
   PYTEST_FLAGS_COMPARE: --tardis-refdata=${{ github.workspace }}/tardis-refdata --generate-reference
@@ -20,9 +26,11 @@ defaults:
 
 jobs:
   build:
-    if: github.repository_owner == 'tardis-sn'
+    # if: github.repository_owner == 'tardis-sn'
     runs-on: ubuntu-latest
     steps:
+      - name: Print payload
+        run: echo "${{ toJson(github.event.client_payload) }}"
       - uses: actions/checkout@v3
         with:
           path: tardis-refdata/
