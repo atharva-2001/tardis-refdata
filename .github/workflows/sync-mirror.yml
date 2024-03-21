@@ -1,5 +1,5 @@
 # For more information on how to use this pipeline please refer to:
-# http://tardis-sn.github.io/tardis/development/continuous_integration.html
+# http://tardis-rt.github.io/tardis/development/continuous_integration.html
 
 name: sync-mirror
 
@@ -14,12 +14,12 @@ jobs:
     steps:
       - name: Clone mirror repository
         run: |
-          git clone --bare https://tardis-sn@dev.azure.com/tardis-sn/TARDIS/_git/tardis-refdata
+          git clone --bare https://tardis-rt@dev.azure.com/tardis-rt/TARDIS/_git/tardis-refdata
 
       - name: Set upstream remote
         run: |
           cd tardis-refdata.git
-          git remote add --mirror=fetch upstream https://github.com/tardis-sn/tardis-refdata.git
+          git remote add --mirror=fetch upstream https://github.com/tardis-rt/tardis-refdata.git
           git fetch upstream --tags
 
       - name: Fetch LFS objects
